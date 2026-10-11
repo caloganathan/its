@@ -1,0 +1,43 @@
+---
+// Hero background: a wireframe globe that turns slowly, with a line-art sketch of the
+// Thiruvalluvar statue (Kanyakumari) standing still at its centre. Purely decorative (aria-hidden).
+// The statue is a stylised sketch, not a technical reproduction — replace `statue` paths with
+// an approved illustration if the committee supplies one.
+const { class: cls = '' } = Astro.props;
+const R = 190, C = 200;
+const MERIDIANS = 6; // great circles 30° apart; each one's apparent width follows |sin(longitude - rotation)|
+const parallels = [0, 30, 60].flatMap((deg) => {
+  const dy = R * Math.sin((deg * Math.PI) / 180), hw = R * Math.cos((deg * Math.PI) / 180);
+  return deg === 0 ? [{ y: C, hw }] : [{ y: C - dy, hw }, { y: C + dy, hw }];
+});
+---
+<svg class:list={['globe', cls]} viewBox="0 0 400 400" fill="none" aria-hidden="true" focusable="false">
+  <defs>
+    <radialGradient id="globe-halo" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="currentColor" stop-opacity=".22" /><stop offset="1" stop-color="currentColor" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <circle cx={C} cy={C} r={R + 8} fill="url(#globe-halo)" />
+  <g stroke="currentColor" stroke-width=".9" stroke-linecap="round">
+    <circle cx={C} cy={C} r={R} stroke-width="1.4" />
+    {Array.from({ length: MERIDIANS }, (_, k) => <ellipse class="meridian" cx={C} cy={C} rx={R} ry={R} style={`animation-delay:-${(k / MERIDIANS) * 72}s`} />)}
+    {parallels.map((p) => <line x1={C - p.hw} y1={p.y} x2={C + p.hw} y2={p.y} />)}
+  </g>
+  <!-- Thiruvalluvar: robed standing figure, right hand raised, ~125 units tall -->
+  <g class="statue" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" transform="translate(200 202) scale(1.05) translate(-200 -202)">
+    <circle cx="200" cy="146" r="11" />
+    <path d="M193 156 C188 160 180 166 178 178 L172 222 C171 232 168 240 160 262 L240 262 C232 240 229 232 228 222 L222 178 C220 166 212 160 207 156" />
+    <path d="M222 176 C232 170 238 160 238 148 M238 148 L236 138 M238 148 L242 139" />
+    <path d="M178 178 C172 192 170 204 174 214" />
+    <path d="M190 190 L186 262 M200 188 L200 262 M211 190 L216 262" opacity=".55" />
+    <path d="M168 262 H232 M160 262 L156 268 H244 L240 262" />
+  </g>
+</svg>
+<style>
+  .globe { color: var(--gold-2); overflow: visible; }
+  /* Real rotation about the vertical axis: every meridian's x-scale follows a sine wave, evenly phase-shifted. */
+  .meridian { transform-box: fill-box; transform-origin: center; animation: meridian-turn 72s ease-in-out infinite; }
+  @keyframes meridian-turn { 0%, 100% { transform: scaleX(0); } 25% { transform: scaleX(1); } 50% { transform: scaleX(0); } 75% { transform: scaleX(-1); } }
+  .statue { color: var(--on-dark); opacity: .55; }
+  @media (prefers-reduced-motion: reduce) { .meridian { animation: none; transform: scaleX(.6); } }
+</style>

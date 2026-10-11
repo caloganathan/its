@@ -5,7 +5,7 @@ export const SITE = {
   name: 'Indonesia Tamil Sangam',
   nameTa: 'இந்தோனேசியா தமிழ் சங்கம்',
   legalName: 'Persekutuan dan Perkumpulan Paguyuban Indonesia Tamil Sangam',
-  email: 'indonesiatamilsangaminfo@gmail.com',
+  email: 'contact@indonesiatamilsangam.com',
   phoneDisplay: '0851-9554-8554',
   phoneE164: '+6285195548554',
   address: {

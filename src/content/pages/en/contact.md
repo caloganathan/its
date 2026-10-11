@@ -6,7 +6,7 @@ eyebrow: "Get in touch"
 
 ## Reach the Sangam
 
-**Email** — [indonesiatamilsangaminfo@gmail.com](mailto:indonesiatamilsangaminfo@gmail.com)
+**Email** — [contact@indonesiatamilsangam.com](mailto:contact@indonesiatamilsangam.com)
 
 **Telephone** — [0851-9554-8554](tel:+6285195548554)
 

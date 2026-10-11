@@ -40,7 +40,7 @@ const t = useT(lang);
 </script>
 <style>
   .site-header { position: fixed; inset: 0 0 auto; z-index: 50; color: #fff; transition: background .5s var(--ease), box-shadow .5s, padding .5s; padding-block: 1.1rem; }
-  .site-header.solid { background: rgba(6, 24, 43, .86); backdrop-filter: saturate(160%) blur(14px); -webkit-backdrop-filter: saturate(160%) blur(14px); box-shadow: 0 1px 0 rgba(255,255,255,.08); padding-block: .6rem; }
+  .site-header.solid { background: color-mix(in oklch, var(--ink) 88%, transparent); backdrop-filter: saturate(160%) blur(14px); -webkit-backdrop-filter: saturate(160%) blur(14px); box-shadow: 0 1px 0 rgba(255,255,255,.08); padding-block: .6rem; }
   :global(.has-ribbon) .site-header { top: 30px; }
   :global(.has-ribbon) .site-header.solid { top: 0; }
   .bar { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; }
@@ -67,7 +67,7 @@ const t = useT(lang);
 
   @media (max-width: 1080px) {
     .menu-toggle { display: block; }
-    .primary { position: fixed; inset: 0; z-index: 1; flex-direction: column; align-items: flex-start; justify-content: center; gap: 2rem; padding: 6rem clamp(1.5rem, 8vw, 4rem) 3rem; background: radial-gradient(120% 80% at 80% 0%, #12365a 0%, var(--ink) 60%); opacity: 0; visibility: hidden; transition: opacity .45s var(--ease), visibility 0s .45s; overflow-y: auto; }
+    .primary { position: fixed; inset: 0; z-index: 1; flex-direction: column; align-items: flex-start; justify-content: center; gap: 2rem; padding: 6rem clamp(1.5rem, 8vw, 4rem) 3rem; background: radial-gradient(120% 80% at 80% 0%, color-mix(in oklch, var(--ink) 70%, var(--primary)) 0%, var(--ink) 60%); opacity: 0; visibility: hidden; transition: opacity .45s var(--ease), visibility 0s .45s; overflow-y: auto; }
     .open .primary { opacity: 1; visibility: visible; transition: opacity .45s var(--ease); }
     .primary ul { flex-direction: column; gap: 0; }
     .primary ul a { font-family: var(--f-display); font-size: clamp(1.8rem, 7vw, 2.6rem); padding: .3rem 0; color: #fff; }

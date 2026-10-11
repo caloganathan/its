@@ -14,4 +14,4 @@ Please do not send sensitive personal information through the form or by email.
 
 ## Questions
 
-For any privacy question or request, email [indonesiatamilsangaminfo@gmail.com](mailto:indonesiatamilsangaminfo@gmail.com).
+For any privacy question or request, email [contact@indonesiatamilsangam.com](mailto:contact@indonesiatamilsangam.com).
