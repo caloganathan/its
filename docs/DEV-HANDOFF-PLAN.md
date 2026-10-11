@@ -78,3 +78,9 @@ Edits can be made directly in GitHub's web editor → commit → Vercel deploys 
 | 3–4 | B5 registration, B6 automation, B7 gallery, B8 news |
 
 Effort estimates are indicative – subject to confirmation by the development team.
+
+## F. "The live site looks outdated" — how to check in 2 minutes
+1. Open `<your-site-url>/build.json` (or scroll to the footer: "Build abc1234 · date"). Compare the `sha` with the latest commit on `main` in GitHub.
+2. Same sha → the deployment is current; hard-refresh (Ctrl/Cmd+Shift+R) or open in a private window.
+3. Older sha, or no `build.json` → you are viewing a different deployment/project. This repository is connected to **two** Vercel projects (`its` and `its-cgwv`); keep one, remove the other (Vercel → Project → Settings → Delete), and make sure `indonesiatamilsangam.com` is attached to the one you keep (Settings → Domains), with Production Branch = `main`.
+4. Vercel → Deployments: the top "Production" row must show the latest commit and status Ready.

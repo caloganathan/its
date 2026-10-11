@@ -3,6 +3,7 @@ import { SITE, type Lang } from '../site';
 import { nav, useT } from '../i18n/ui';
 import Kolam from './Kolam.astro';
 import Seal from './Seal.astro';
+import { BUILD } from '../build';
 const { lang } = Astro.props as { lang: Lang };
 const t = useT(lang);
 ---
@@ -31,7 +32,8 @@ const t = useT(lang);
       </div>
     </div>
     <div class="base">
-      <span>© {new Date().getFullYear()} {SITE.name}. {t('footer.rights')} <span class="legal">{t('footer.registered')}: {SITE.legalName}</span></span>
+      <span>© {new Date().getFullYear()} {SITE.name}. {t('footer.rights')} <span class="legal">{t('footer.registered')}: {SITE.legalName}</span>
+      <span class="legal build">Build {BUILD.sha} · {BUILD.date.slice(0, 10)}</span></span>
       <span><a href={`/${lang}/privacy/`}>{t('footer.privacy')}</a> · <a href={`/${lang}/media/`}>{t('footer.media')}</a></span>
     </div>
   </div>
