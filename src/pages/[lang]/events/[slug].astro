@@ -44,7 +44,7 @@ const jsonLd = d.start ? {
         {d.programme && d.programme.length > 0 && <><h2>{t('events.programme')}</h2>
           <ol class="programme">{d.programme.map((p) => <li><time>{p.time}</time><span>{p.item}</span></li>)}</ol></>}
       </article>
-      <aside class="facts" data-reveal>
+      <aside class="facts emboss" data-reveal>
         {d.start && <div><h2>{t('events.when')}</h2><p>{longDate(d, lang)} {t('events.wib')}</p></div>}
         {d.venue && <div><h2>{t('events.where')}</h2><p>{d.venue}{d.address && <><br /><span class="muted">{d.address}</span></>}</p>
           {d.mapUrl && <a class="link-arrow" href={d.mapUrl} target="_blank" rel="noopener">{t('events.map')} ↗</a>}</div>}

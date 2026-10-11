@@ -6,12 +6,28 @@ const { lang, title, description, eyebrow, crumbs = [] } = Astro.props as { lang
 const t = useT(lang);
 ---
 <header class="page-hero">
+  <div class="orb o1" aria-hidden="true"></div><div class="orb o2" aria-hidden="true"></div>
   <Kolam class="kolam-bg" animate />
   <div class="shell">
     <nav class="breadcrumb" aria-label="Breadcrumb"><a href={`/${lang}/`}>{t('breadcrumb.home')}</a>{crumbs.map((c) => <> / <a href={c.href}>{c.label}</a></>)}</nav>
-    {eyebrow && <p class="eyebrow">{eyebrow}</p>}
-    <h1>{title}</h1>
-    {description && <p>{description}</p>}
-    <slot />
+    <div class="glass plate">
+      {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+      <h1>{title}</h1>
+      {description && <p class="desc">{description}</p>}
+      <slot />
+    </div>
   </div>
 </header>
+<style>
+  .page-hero { background: radial-gradient(110% 120% at 80% 0%, color-mix(in oklch, var(--ink) 60%, var(--primary)), var(--ink) 70%); }
+  .orb { position: absolute; border-radius: 50%; filter: blur(60px); opacity: .55; z-index: -1; pointer-events: none; }
+  .o1 { width: 380px; height: 380px; left: 6%; top: 18%; background: var(--chart-3); animation: drift 16s ease-in-out infinite alternate; }
+  .o2 { width: 320px; height: 320px; right: 10%; bottom: -12%; background: var(--chart-2); opacity: .4; animation: drift 20s ease-in-out infinite alternate-reverse; }
+  @keyframes drift { to { transform: translate(40px, -30px) scale(1.12); } }
+  .plate { max-width: 860px; }
+  .plate .eyebrow { display: inline-flex; padding: .45rem 1rem; border-radius: 999px; background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.3); color: #fff; margin-bottom: 1.3rem; letter-spacing: .2em; }
+  .plate .eyebrow::before { display: none; }
+  .plate h1 { color: #fff; max-width: none; font-size: clamp(2.4rem, 5.4vw, 4.4rem); text-shadow: 0 1px 0 rgba(255,255,255,.25), 0 8px 30px rgba(2,4,30,.45); margin-bottom: .3em; }
+  .desc { color: rgba(255,255,255,.88); max-width: 60ch; font-size: 1.15rem; margin: 0; }
+  @media (prefers-reduced-motion: reduce) { .orb { animation: none; } }
+</style>
