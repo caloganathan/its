@@ -1,0 +1,72 @@
+---
+import '@fontsource-variable/inter';
+import '@fontsource-variable/fraunces';
+import '@fontsource-variable/noto-serif-tamil';
+import '@fontsource-variable/noto-sans-tamil';
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE, LANGS, PREVIEW, type Lang } from '../site';
+import { useT } from '../i18n/ui';
+
+interface Props { title: string; description: string; lang: Lang; active?: string; image?: string; jsonLd?: object; home?: boolean }
+const { title, description, lang, active, image, jsonLd, home = false } = Astro.props;
+const t = useT(lang);
+const altPath = Astro.url.pathname.replace(/^\/(en|id|ta)(?=\/|$)/, '') || '/';
+const canonical = new URL(Astro.url.pathname, SITE.url).href;
+const ogImage = new URL(image ?? SITE.ogImage, SITE.url).href;
+const fullTitle = home ? `${SITE.name} — ${title}` : `${title} | ${SITE.name}`;
+const org = {
+  '@context': 'https://schema.org', '@type': 'Organization', '@id': `${SITE.url}/#org`,
+  name: SITE.name, alternateName: [SITE.nameTa, SITE.legalName], url: SITE.url,
+  logo: new URL(SITE.logo, SITE.url).href, email: SITE.email, telephone: SITE.phoneE164,
+  address: { '@type': 'PostalAddress', streetAddress: SITE.address.street, addressLocality: SITE.address.locality,
+    addressRegion: SITE.address.region, postalCode: SITE.address.postalCode, addressCountry: SITE.address.country },
+  sameAs: SITE.social.map((s) => s.href),
+};
+---
+<!doctype html>
+<html lang={lang} class="no-js">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>{fullTitle}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  {PREVIEW && <meta name="robots" content="noindex, nofollow" />}
+  <meta name="theme-color" content="#06182b" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content={SITE.name} />
+  <meta property="og:locale" content={{ en: 'en_GB', id: 'id_ID', ta: 'ta_IN' }[lang]} />
+  <meta property="og:title" content={fullTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:image" content={ogImage} />
+  <meta name="twitter:card" content="summary_large_image" />
+  {LANGS.map((l) => <link rel="alternate" hreflang={l} href={new URL(`/${l}${altPath}`, SITE.url).href} />)}
+  <link rel="alternate" hreflang="x-default" href={new URL(`/en${altPath}`, SITE.url).href} />
+  <link rel="icon" type="image/png" href={SITE.logo} />
+  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" />
+  <script is:inline>document.documentElement.classList.replace('no-js', 'js');</script>
+  <script type="application/ld+json" set:html={JSON.stringify(org)} />
+  {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+</head>
+<body class:list={{ 'has-ribbon': PREVIEW }}>
+  <a class="skip" href="#main">{t('skip')}</a>
+  {PREVIEW && <div class="preview-ribbon" role="note">{t('preview')}</div>}
+  <Header lang={lang} active={active} altPath={altPath} />
+  <main id="main"><slot /></main>
+  <Footer lang={lang} />
+  <script is:inline>
+    (() => {
+      const els = document.querySelectorAll('[data-reveal]');
+      if (!('IntersectionObserver' in window)) { els.forEach((e) => e.classList.add('in')); return; }
+      const io = new IntersectionObserver((entries) => entries.forEach((en) => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } }), { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+      els.forEach((e) => io.observe(e));
+    })();
+  </script>
+  <style>
+    .preview-ribbon { position: relative; z-index: 60; height: 30px; display: grid; place-items: center; background: var(--gold); color: #13202f; font-size: .78rem; font-weight: 600; letter-spacing: .02em; text-align: center; padding-inline: 1rem; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  </style>
+</body>
+</html>

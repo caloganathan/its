@@ -1,0 +1,53 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PageHero from '../../../components/PageHero.astro';
+import EventCard from '../../../components/EventCard.astro';
+import FeaturedEvent from '../../../components/FeaturedEvent.astro';
+import Kolam from '../../../components/Kolam.astro';
+import { LANGS, type Lang } from '../../../site';
+import { useT } from '../../../i18n/ui';
+import { getEvents } from '../../../lib/events';
+
+export function getStaticPaths() { return LANGS.map((lang) => ({ params: { lang } })); }
+const lang = Astro.params.lang as Lang;
+const t = useT(lang);
+const events = await getEvents(lang);
+const upcoming = events.filter((e) => e.upcoming);
+const past = events.filter((e) => !e.upcoming);
+const featured = upcoming.find((e) => e.data.featured);
+const rest = upcoming.filter((e) => e !== featured);
+---
+<Base title={t('events.title')} description={t('events.desc')} lang={lang} active="events">
+  <PageHero lang={lang} title={t('events.title')} description={t('events.desc')} eyebrow={t('events.eyebrow')} />
+  {featured && <FeaturedEvent event={featured} lang={lang} />}
+  <section class="section">
+    <div class="shell">
+      {(rest.length > 0 || !featured) && <div class="section-head" data-reveal><div><p class="eyebrow">{t('events.upcoming')}</p></div></div>}
+      {rest.length > 0 ? (
+        <div class="grid">{rest.map((e) => <div data-reveal><EventCard event={e} lang={lang} /></div>)}</div>
+      ) : !featured && (
+        <div class="empty" data-reveal>
+          <Kolam class="empty-kolam" />
+          <div><h2>{t('events.none.title')}</h2><p>{t('events.none.text')}</p>
+          <a class="btn dark" href={`/${lang}/join/`}>{t('events.none.cta')} <span class="arrow" aria-hidden="true">→</span></a></div>
+        </div>
+      )}
+    </div>
+  </section>
+  {past.length > 0 && (
+    <section class="section ivory">
+      <div class="shell">
+        <div class="section-head" data-reveal><div><p class="eyebrow">{t('events.past')}</p><h2>{t('events.past')}</h2></div></div>
+        <div class="grid">{past.map((e) => <div data-reveal><EventCard event={e} lang={lang} /></div>)}</div>
+      </div>
+    </section>
+  )}
+</Base>
+<style>
+  .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; }
+  .empty { display: grid; grid-template-columns: 220px 1fr; gap: 2.5rem; align-items: center; padding: clamp(1.5rem, 4vw, 3rem); border: 1px solid var(--line); border-radius: calc(var(--radius) + 6px); }
+  .empty :global(.empty-kolam) { width: 100%; opacity: .7; }
+  .empty p { color: var(--muted); max-width: 56ch; }
+  @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .empty { grid-template-columns: 1fr; } .empty :global(.empty-kolam) { width: 140px; } }
+  @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }
+</style>

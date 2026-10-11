@@ -1,0 +1,60 @@
+---
+import { Image } from 'astro:assets';
+import type { SangamEvent } from '../lib/events';
+import { longDate } from '../lib/events';
+import { useT } from '../i18n/ui';
+import type { Lang } from '../site';
+import Kolam from './Kolam.astro';
+const { event, lang } = Astro.props as { event: SangamEvent; lang: Lang };
+const t = useT(lang);
+const d = event.data;
+const href = `/${lang}/events/${event.slug}/`;
+---
+<section class="feature" aria-labelledby="feature-title">
+  <div class="bg">
+    {d.cover ? <Image src={d.cover} alt="" widths={[960, 1600, 2400]} sizes="100vw" loading="lazy" /> : <Kolam class="feature-kolam" />}
+  </div>
+  <div class="shell inner" data-reveal>
+    <p class="eyebrow">{t('events.featured')}</p>
+    <h2 id="feature-title">{d.title}</h2>
+    <p class="when">{longDate(d, lang)} {d.start && 'WIB'}{d.venue && <><br />{d.venue}</>}</p>
+    <p class="sum">{d.summary}</p>
+    {d.start && d.start.getTime() > Date.now() && (
+      <div class="countdown" data-countdown={d.start.toISOString()} aria-hidden="true">
+        <div><b data-u="d">–</b><span>{t('events.days')}</span></div>
+        <div><b data-u="h">–</b><span>{t('events.hours')}</span></div>
+        <div><b data-u="m">–</b><span>{t('events.mins')}</span></div>
+      </div>
+    )}
+    <div class="actions">
+      {d.registrationUrl && <a class="btn" href={d.registrationUrl} target="_blank" rel="noopener">{d.registrationLabel ?? t('events.register')} <span class="arrow" aria-hidden="true">→</span></a>}
+      <a class="btn ghost" href={href}>{t('events.details')}</a>
+    </div>
+  </div>
+</section>
+<script is:inline>
+  document.querySelectorAll('[data-countdown]').forEach((el) => {
+    const end = new Date(el.dataset.countdown).getTime();
+    const put = (u, v) => { el.querySelector(`[data-u="${u}"]`).textContent = String(v).padStart(2, '0'); };
+    const tick = () => { const s = Math.max(0, (end - Date.now()) / 1000); put('d', Math.floor(s / 86400)); put('h', Math.floor(s % 86400 / 3600)); put('m', Math.floor(s % 3600 / 60)); };
+    tick(); setInterval(tick, 30000);
+  });
+</script>
+<style>
+  .feature { position: relative; isolation: isolate; overflow: hidden; color: #fff; min-height: min(92vh, 860px); display: flex; align-items: flex-end; background: var(--ink); }
+  .bg { position: absolute; inset: 0; z-index: -1; }
+  .bg img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.04); }
+  .bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(6,24,43,.92) 0%, rgba(6,24,43,.65) 45%, rgba(6,24,43,.15) 100%), linear-gradient(0deg, rgba(6,24,43,.9) 0%, transparent 50%); }
+  .bg :global(.feature-kolam) { position: absolute; right: -6%; top: 50%; translate: 0 -50%; width: min(760px, 90vw); opacity: .22; }
+  .inner { padding-block: clamp(5rem, 12vw, 8rem); }
+  .inner > * { max-width: 680px; }
+  .eyebrow { color: var(--gold-2); }
+  h2 { color: #fff; font-size: clamp(2.4rem, 5.5vw, 4.6rem); }
+  .when { font-size: 1.05rem; color: var(--gold-2); }
+  .sum { color: var(--on-dark-muted); font-size: 1.12rem; }
+  .countdown { display: flex; gap: 1.75rem; margin: 2rem 0; }
+  .countdown div { display: grid; }
+  .countdown b { font-family: var(--f-display); font-weight: 400; font-size: clamp(2.2rem, 4vw, 3.2rem); line-height: 1; font-variant-numeric: tabular-nums; }
+  .countdown span { font-size: .72rem; letter-spacing: .2em; text-transform: uppercase; color: var(--on-dark-muted); margin-top: .4rem; }
+  .actions { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1.5rem; }
+</style>

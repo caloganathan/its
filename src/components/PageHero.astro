@@ -1,0 +1,17 @@
+---
+import Kolam from './Kolam.astro';
+import { useT } from '../i18n/ui';
+import type { Lang } from '../site';
+const { lang, title, description, eyebrow, crumbs = [] } = Astro.props as { lang: Lang; title: string; description?: string; eyebrow?: string; crumbs?: { href: string; label: string }[] };
+const t = useT(lang);
+---
+<header class="page-hero">
+  <Kolam class="kolam-bg" animate />
+  <div class="shell">
+    <nav class="breadcrumb" aria-label="Breadcrumb"><a href={`/${lang}/`}>{t('breadcrumb.home')}</a>{crumbs.map((c) => <> / <a href={c.href}>{c.label}</a></>)}</nav>
+    {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+    <h1>{title}</h1>
+    {description && <p>{description}</p>}
+    <slot />
+  </div>
+</header>
