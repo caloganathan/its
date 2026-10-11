@@ -25,6 +25,8 @@ const term = { en: 'Term', id: 'Periode', ta: 'பதவிக்காலம்
   .grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; }
   .person { display: flex; align-items: center; gap: 1.1rem; padding: 1.4rem 1.5rem; }
   .person.lead { background: var(--ink); border-color: var(--ink); color: var(--on-dark); }
+  .person.lead { background: linear-gradient(160deg, color-mix(in oklch, var(--ink) 82%, var(--primary)), var(--ink)); }
+  .person.lead::after { background: radial-gradient(420px circle at var(--mx) var(--my), rgba(255,255,255,.16), transparent 60%); }
   .person.lead h3 { color: #fff; }
   .person.lead .role { color: var(--gold-2); }
   .person.lead .avatar { background: color-mix(in oklch, var(--primary) 70%, var(--ink)); color: #fff; }

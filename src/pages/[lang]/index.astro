@@ -24,16 +24,17 @@ const explore = [
 <Base title={t('home.title')} description={t('home.desc')} lang={lang} active="home" home>
   <section class="hero">
     <div class="glow" aria-hidden="true"></div>
-    <GlobeMotif class="hero-globe" />
-    <div class="shell hero-inner">
-      <Seal size={132} class="hero-seal" alt={`${SITE.name} emblem`} priority />
-      <p class="tamil" lang="ta">{SITE.nameTa}</p>
-      <h1>{t('home.title')}</h1>
-      <p class="sub">{t('home.desc')}</p>
-      <div class="actions">
-        <a class="btn" href={`/${lang}/events/`}>{t('home.cta.events')} <span class="arrow" aria-hidden="true">→</span></a>
-        <a class="btn ghost" href={`/${lang}/join/`}>{t('home.cta.join')}</a>
+    <div class="shell hero-grid">
+      <div class="hero-copy">
+        <div class="brandline"><Seal size={64} alt={`${SITE.name} emblem`} priority /><p class="tamil" lang="ta">{SITE.nameTa}</p></div>
+        <h1>{t('home.title')}</h1>
+        <p class="sub">{t('home.desc')}</p>
+        <div class="actions">
+          <a class="btn" href={`/${lang}/events/`}>{t('home.cta.events')} <span class="arrow" aria-hidden="true">→</span></a>
+          <a class="btn ghost" href={`/${lang}/join/`}>{t('home.cta.join')}</a>
+        </div>
       </div>
+      <GlobeMotif class="hero-globe" />
     </div>
     <a class="hero-scroll" href="#pillars" aria-label={t('home.scroll')}><span></span></a>
   </section>
@@ -45,7 +46,7 @@ const explore = [
       </div>
       <ol class="pillars">
         {pillars.map((i) => (
-          <li data-reveal style={`--d:${i * 0.12}s`}>
+          <li class="card pillar" data-reveal style={`--d:${i * 0.12}s`}>
             <span class="num">0{i}</span>
             <h3>{t(`home.p${i}.title`)}</h3>
             <p>{t(`home.p${i}.text`)}</p>
@@ -111,26 +112,31 @@ const explore = [
 </Base>
 
 <style>
-  .hero { position: relative; isolation: isolate; overflow: hidden; min-height: 100svh; display: grid; place-items: center; text-align: center; color: #fff; background: radial-gradient(120% 90% at 50% 0%, color-mix(in oklch, var(--ink) 55%, var(--primary)) 0%, color-mix(in oklch, var(--ink) 85%, var(--primary)) 45%, var(--navy-2) 100%); padding: 8rem 0 6rem; }
-  .glow { position: absolute; inset: auto 0 -30% 0; height: 70%; background: radial-gradient(50% 60% at 50% 100%, color-mix(in oklch, var(--primary) 45%, transparent), transparent 70%); z-index: -1; animation: breathe 9s ease-in-out infinite alternate; }
-  .hero :global(.hero-globe) { position: absolute; z-index: -1; width: min(1000px, 150vw); left: 50%; top: 50%; translate: -50% -50%; opacity: .5; }
-  .hero::before { content: ''; position: absolute; inset: 0; z-index: -1; background: radial-gradient(48% 42% at 50% 50%, color-mix(in oklch, var(--navy-2) 78%, transparent), transparent 100%); }
-  .hero-inner { display: flex; flex-direction: column; align-items: center; }
-  .hero-inner :global(.hero-seal) { margin-bottom: 1.8rem; animation: fade-up 1.2s .1s var(--ease) both; }
-  @media (max-width: 600px) { .hero-inner :global(.hero-seal) { --s: 104px !important; } }
-  .tamil { font-family: 'Noto Serif Tamil Variable', serif; color: var(--gold-2); font-size: clamp(1rem, 1.8vw, 1.3rem); letter-spacing: .04em; margin-bottom: 1rem; animation: fade-up 1.2s .3s var(--ease) both; }
-  h1 { color: #fff; text-shadow: 0 2px 30px color-mix(in oklch, var(--navy-2) 80%, transparent); max-width: 15ch; font-weight: 400; margin-bottom: .45em; animation: fade-up 1.4s .45s var(--ease) both; }
-  :lang(ta) h1 { max-width: 20ch; }
-  .sub { max-width: 54ch; color: var(--on-dark-muted); font-size: clamp(1.05rem, 1.6vw, 1.25rem); animation: fade-up 1.4s .65s var(--ease) both; }
-  .actions { display: flex; flex-wrap: wrap; gap: .8rem; justify-content: center; margin-top: 1.6rem; animation: fade-up 1.4s .85s var(--ease) both; }
+  .hero { position: relative; isolation: isolate; overflow: hidden; min-height: 100svh; display: grid; align-items: center; color: #fff; background: radial-gradient(120% 90% at 75% 40%, color-mix(in oklch, var(--ink) 55%, var(--primary)) 0%, color-mix(in oklch, var(--ink) 85%, var(--primary)) 45%, var(--navy-2) 100%); padding: 8.5rem 0 6rem; }
+  .glow { position: absolute; inset: auto 0 -30% 0; height: 70%; background: radial-gradient(50% 60% at 70% 100%, color-mix(in oklch, var(--primary) 45%, transparent), transparent 70%); z-index: -1; animation: breathe 9s ease-in-out infinite alternate; }
+  .hero-grid { display: grid; grid-template-columns: minmax(0, 1.02fr) minmax(0, .98fr); gap: clamp(2rem, 5vw, 5rem); align-items: center; }
+  .hero-copy { text-align: left; }
+  .brandline { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.6rem; animation: fade-up 1.2s .1s var(--ease) both; }
+  .tamil { font-family: 'Noto Serif Tamil Variable', serif; color: var(--gold-2); font-size: clamp(1rem, 1.6vw, 1.25rem); letter-spacing: .03em; margin: 0; }
+  h1 { color: #fff; font-size: clamp(2.5rem, 5.2vw, 4.9rem); max-width: 14ch; font-weight: 400; margin-bottom: .45em; animation: fade-up 1.4s .3s var(--ease) both; }
+  :lang(ta) h1 { max-width: 18ch; font-size: clamp(2rem, 4vw, 3.6rem); }
+  .sub { max-width: 50ch; color: var(--on-dark-muted); font-size: clamp(1.05rem, 1.5vw, 1.22rem); animation: fade-up 1.4s .5s var(--ease) both; }
+  .actions { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1.8rem; animation: fade-up 1.4s .7s var(--ease) both; }
+  .hero :global(.hero-globe) { max-width: min(620px, 78svh); justify-self: center; animation: fade-up 1.6s .4s var(--ease) both; }
+  @media (max-width: 900px) {
+    .hero { padding-top: 7rem; }
+    .hero-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .hero :global(.hero-globe) { order: -1; max-width: min(380px, 80vw); }
+    .hero-copy { text-align: center; } .brandline, .actions { justify-content: center; } .hero-copy .sub, h1 { margin-inline: auto; }
+  }
   .hero-scroll { position: absolute; bottom: 2rem; left: 50%; translate: -50% 0; width: 26px; height: 42px; border: 1px solid rgba(255,255,255,.4); border-radius: 999px; }
   .hero-scroll span { position: absolute; left: 50%; top: 8px; width: 2px; height: 8px; margin-left: -1px; background: var(--gold-2); border-radius: 2px; animation: scrolldot 2.2s ease-in-out infinite; }
 
-  .pillars { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1.5rem, 4vw, 3.5rem); counter-reset: p; }
-  .pillars li { border-top: 1px solid var(--line); padding-top: 1.75rem; }
+  .pillars { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1.25rem, 3vw, 2rem); }
+  .pillar { padding: clamp(1.75rem, 3vw, 2.5rem); }
   .num { display: block; font-family: var(--f-display); font-size: .95rem; color: var(--primary); margin-bottom: 1.4rem; letter-spacing: .1em; }
   .pillars h3 { font-size: clamp(1.8rem, 2.6vw, 2.3rem); }
-  .pillars p { color: var(--muted); }
+  .pillars p { color: var(--muted); margin: 0; }
 
   .quote { text-align: center; overflow: hidden; isolation: isolate; }
   .quote :global(.quote-kolam) { position: absolute; width: 560px; left: 50%; top: 50%; translate: -50% -50%; opacity: .22; z-index: -1; }

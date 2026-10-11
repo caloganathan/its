@@ -4,7 +4,8 @@ import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
 import EnquiryForm from '../../components/EnquiryForm.astro';
 import Committee from '../../components/Committee.astro';
-import type { Lang } from '../../site';
+import { SITE, type Lang } from '../../site';
+import { nav, useT } from '../../i18n/ui';
 
 export async function getStaticPaths() {
   const pages = await getCollection('pages');
@@ -16,12 +17,55 @@ export async function getStaticPaths() {
 const { page } = Astro.props;
 const lang = Astro.params.lang as Lang;
 const slug = Astro.params.slug ?? '';
+const t = useT(lang);
 const { Content } = await render(page);
 const m = page.data;
+const related = nav.filter((n) => n.id !== slug);
+const cta = { en: 'Be part of the Sangam', id: 'Jadilah bagian dari Sangam', ta: 'சங்கத்தின் அங்கமாகுங்கள்' }[lang];
+const showAside = slug !== 'privacy';
 ---
 <Base title={m.title} description={m.description} lang={lang} active={slug.split('/')[0]}>
   <PageHero lang={lang} title={m.title} description={m.description} eyebrow={m.eyebrow} />
-  <section class="section"><div class="shell"><article class="prose" data-reveal><Content /></article></div></section>
+  <section class="section body">
+    <div class:list={['shell', 'layout', { solo: !showAside }]}>
+      <article class="prose" data-reveal><Content /></article>
+      {showAside && (
+        <aside class="side" data-reveal>
+          <div class="cta emboss">
+            <p class="eyebrow">{t('nav.join')}</p>
+            <h2>{cta}</h2>
+            <a class="btn dark" href={`/${lang}/join/`}>{t('home.join.cta')} <span class="arrow" aria-hidden="true">→</span></a>
+          </div>
+          <nav class="links card" aria-label={t('footer.explore')}>
+            <h2>{t('footer.explore')}</h2>
+            <ul>{related.map((n) => <li><a href={`/${lang}/${n.href}`}>{t(`nav.${n.id}`)} <span aria-hidden="true">→</span></a></li>)}</ul>
+          </nav>
+          <p class="mail"><a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>
+        </aside>
+      )}
+    </div>
+  </section>
   {slug === 'about' && <Committee lang={lang} />}
   {(slug === 'contact' || slug === 'join') && <EnquiryForm lang={lang} />}
 </Base>
+<style>
+  .body { background: radial-gradient(60% 40% at 100% 0%, color-mix(in oklch, var(--chart-1) 55%, transparent), transparent 70%), var(--paper); }
+  .layout { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: clamp(2rem, 6vw, 5rem); align-items: start; }
+  .layout.solo { grid-template-columns: minmax(0, 1fr); }
+  .prose :global(h2) { padding-top: 1.1rem; border-top: 1px solid var(--line); }
+  .prose :global(h2:first-child) { border-top: 0; padding-top: 0; }
+  .side { position: sticky; top: 6.5rem; display: grid; gap: 1.25rem; }
+  .cta { padding: 1.75rem; background: linear-gradient(160deg, color-mix(in oklch, var(--ink) 80%, var(--primary)), var(--ink)); border-color: var(--ink); color: var(--on-dark); }
+  .cta::after { background: radial-gradient(420px circle at var(--mx) var(--my), rgba(255,255,255,.16), transparent 60%); }
+  .cta h2 { color: #fff; font-size: 1.6rem; }
+  .cta .eyebrow { color: var(--gold-2); }
+  .cta .btn { --bg: var(--primary); }
+  .links { padding: 1.5rem 1.75rem; }
+  .links h2 { font-family: var(--f-body); font-size: .72rem; font-weight: 650; letter-spacing: .2em; text-transform: uppercase; color: var(--primary); margin-bottom: .75rem; }
+  .links ul { list-style: none; margin: 0; padding: 0; }
+  .links li + li { border-top: 1px solid var(--line); }
+  .links a { display: flex; justify-content: space-between; padding: .7rem 0; text-decoration: none; color: var(--navy); font-weight: 600; }
+  .links a:hover { color: var(--primary); }
+  .mail { font-size: .92rem; margin: 0; padding-inline: .5rem; word-break: break-word; }
+  @media (max-width: 960px) { .layout { grid-template-columns: 1fr; } .side { position: static; } }
+</style>
