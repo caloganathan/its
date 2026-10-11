@@ -1,19 +1,30 @@
 /* Indonesia Tamil Sangam — design system
    Palette derived from the logo (royal blue) with deep ink, ivory and restrained temple gold. */
 :root {
-  --ink: #06182b;
-  --navy: #0b2a4a;
-  --navy-2: #12365a;
-  --royal: #1f3f94;
-  --gold: #c9a45b;
-  --gold-2: #e6cc8f;
-  --ivory: #f6f1e7;
-  --paper: #fffdf8;
-  --text: #16212e;
-  --muted: #5a6572;
-  --line: #e4dccb;
-  --on-dark: #eef2f7;
-  --on-dark-muted: #b8c4d2;
+  /* Theme: "Indigo Mono" — exact OKLCH values from the committee-selected theme.
+     Neutrals are true greys (chroma 0); indigo is the only hue. Legacy token names
+     (--gold, --royal …) are kept so components need no changes. */
+  --primary: oklch(0.5144 0.1605 267.44);   /* Primary / Ring / Chart 4 */
+  --chart-1: oklch(0.9214 0.0248 257.65);
+  --chart-2: oklch(0.7597 0.0804 267.01);
+  --chart-3: oklch(0.6083 0.1247 272.72);
+  --chart-5: oklch(0.2571 0.1161 272.24);
+  --border: oklch(0.92 0 0);
+  --input: oklch(0.94 0 0);
+
+  --ink: var(--chart-5);                                   /* darkest indigo: hero, footer */
+  --navy: color-mix(in oklch, var(--chart-5) 62%, var(--primary)); /* headings on light */
+  --navy-2: color-mix(in oklch, var(--chart-5) 80%, black);
+  --royal: var(--primary);                                 /* links, focus, buttons */
+  --gold: var(--chart-3);                                  /* accent on dark */
+  --gold-2: var(--chart-2);                                /* light accent on dark */
+  --ivory: color-mix(in oklch, var(--chart-1) 45%, white); /* alt section background */
+  --paper: oklch(1 0 0);
+  --text: oklch(0.145 0 0);
+  --muted: oklch(0.45 0 0);
+  --line: var(--border);
+  --on-dark: oklch(0.97 0 0);
+  --on-dark-muted: oklch(0.82 0.02 268);
   --max: 1200px;
   --radius: 14px;
   --ease: cubic-bezier(.2, .7, .1, 1);
@@ -28,7 +39,7 @@ html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
 body { margin: 0; font-family: var(--f-body); font-size: 1.0625rem; line-height: 1.7; color: var(--text); background: var(--paper); text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
 img, svg, video { display: block; max-width: 100%; height: auto; }
 a { color: var(--royal); text-underline-offset: .2em; text-decoration-thickness: 1px; }
-a:hover { color: #8a6726; }
+a:hover { color: var(--navy); }
 :focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; border-radius: 4px; }
 button, input, select, textarea { font: inherit; color: inherit; }
 h1, h2, h3, h4 { font-family: var(--f-display); font-weight: 500; line-height: 1.12; letter-spacing: -.015em; color: var(--navy); margin: 0 0 .6em; font-optical-sizing: auto; }
@@ -45,22 +56,22 @@ p { margin: 0 0 1.1em; }
 .skip:focus { left: 1rem; }
 .visually-hidden { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
-.eyebrow { display: inline-flex; align-items: center; gap: .75rem; font-family: var(--f-body); font-size: .74rem; font-weight: 650; letter-spacing: .22em; text-transform: uppercase; color: #9a7633; margin-bottom: 1.1rem; }
+.eyebrow { display: inline-flex; align-items: center; gap: .75rem; font-family: var(--f-body); font-size: .74rem; font-weight: 650; letter-spacing: .22em; text-transform: uppercase; color: var(--primary); margin-bottom: 1.1rem; }
 .eyebrow::before { content: ''; width: 28px; height: 1px; background: currentColor; }
 :lang(ta) .eyebrow { letter-spacing: .06em; font-size: .85rem; }
 .lead { font-size: clamp(1.1rem, 1.6vw, 1.3rem); color: var(--muted); max-width: 46ch; }
 
 /* Buttons */
-.btn { --bg: var(--gold); --fg: #13202f; display: inline-flex; align-items: center; gap: .6rem; padding: .95rem 1.5rem; border-radius: 999px; background: var(--bg); color: var(--fg); border: 1px solid var(--bg); font-weight: 600; font-size: .95rem; text-decoration: none; letter-spacing: .01em; cursor: pointer; transition: transform .35s var(--ease), background .35s, color .35s, border-color .35s; }
-.btn:hover { --bg: var(--gold-2); color: var(--fg); transform: translateY(-2px); }
+.btn { --bg: var(--primary); --fg: #fff; display: inline-flex; align-items: center; gap: .6rem; padding: .95rem 1.5rem; border-radius: 999px; background: var(--bg); color: var(--fg); border: 1px solid var(--bg); font-weight: 600; font-size: .95rem; text-decoration: none; letter-spacing: .01em; cursor: pointer; transition: transform .35s var(--ease), background .35s, color .35s, border-color .35s; }
+.btn:hover { --bg: color-mix(in oklch, var(--primary), white 18%); color: var(--fg); transform: translateY(-2px); }
 .btn .arrow { transition: transform .35s var(--ease); }
 .btn:hover .arrow { transform: translateX(4px); }
 .btn.ghost { --bg: transparent; --fg: #fff; border-color: rgba(255,255,255,.45); }
-.btn.ghost:hover { --bg: rgba(255,255,255,.08); border-color: #fff; color: #fff; }
-.btn.dark { --bg: var(--navy); --fg: #fff; }
-.btn.dark:hover { --bg: var(--royal); color: #fff; }
-.link-arrow { display: inline-flex; gap: .5rem; align-items: center; font-weight: 600; text-decoration: none; color: var(--navy); border-bottom: 1px solid var(--gold); padding-bottom: .15rem; }
-.link-arrow:hover { color: #8a6726; }
+.btn.ghost:hover { --bg: rgba(255,255,255,.1); border-color: #fff; color: #fff; }
+.btn.dark { --bg: var(--ink); --fg: #fff; }
+.btn.dark:hover { --bg: var(--primary); color: #fff; }
+.link-arrow { display: inline-flex; gap: .5rem; align-items: center; font-weight: 600; text-decoration: none; color: var(--navy); border-bottom: 1px solid var(--primary); padding-bottom: .15rem; }
+.link-arrow:hover { color: var(--navy); }
 
 /* Sections */
 .section { padding-block: clamp(4.5rem, 10vw, 8.5rem); position: relative; }
@@ -93,27 +104,27 @@ p { margin: 0 0 1.1em; }
 .prose h3 { margin-top: 1.8em; }
 .prose ul { padding-left: 0; list-style: none; }
 .prose li { position: relative; padding-left: 1.6rem; margin-bottom: .55rem; }
-.prose li::before { content: ''; position: absolute; left: 0; top: .78em; width: .7rem; height: 1px; background: var(--gold); }
-.prose blockquote { margin: 2rem 0; padding: 1.25rem 1.5rem; border-left: 2px solid var(--gold); background: var(--ivory); border-radius: 0 var(--radius) var(--radius) 0; }
+.prose li::before { content: ''; position: absolute; left: 0; top: .78em; width: .7rem; height: 1px; background: var(--primary); }
+.prose blockquote { margin: 2rem 0; padding: 1.25rem 1.5rem; border-left: 2px solid var(--primary); background: var(--ivory); border-radius: 0 var(--radius) var(--radius) 0; }
 .prose blockquote p:last-child { margin: 0; }
 .prose strong { color: var(--navy); }
 
 /* Cards */
 .card { position: relative; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; transition: transform .5s var(--ease), box-shadow .5s var(--ease), border-color .5s; }
-.card:hover { transform: translateY(-4px); box-shadow: 0 24px 50px -24px rgba(6, 24, 43, .28); border-color: #d6c9ad; }
+.card:hover { transform: translateY(-4px); box-shadow: 0 24px 50px -24px color-mix(in oklch, var(--ink) 35%, transparent); border-color: var(--chart-2); }
 
 /* Forms */
 .form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.1rem 1.25rem; background: #fff; border: 1px solid var(--line); border-radius: calc(var(--radius) + 4px); padding: clamp(1.25rem, 3vw, 2.25rem); }
 .field { display: flex; flex-direction: column; gap: .4rem; }
 .field.full { grid-column: 1 / -1; }
 .field label { font-weight: 600; font-size: .9rem; }
-.field :is(input, select, textarea) { border: 1px solid #c9cfd6; border-radius: 10px; padding: .85rem .95rem; background: #fff; width: 100%; transition: border-color .2s, box-shadow .2s; }
+.field :is(input, select, textarea) { border: 1px solid var(--input); border-radius: 10px; padding: .85rem .95rem; background: #fff; width: 100%; transition: border-color .2s, box-shadow .2s; }
 .field textarea { min-height: 140px; resize: vertical; }
-.field :is(input, select, textarea):focus { outline: none; border-color: var(--royal); box-shadow: 0 0 0 4px rgba(31, 63, 148, .12); }
+.field :is(input, select, textarea):focus { outline: none; border-color: var(--royal); box-shadow: 0 0 0 4px color-mix(in oklch, var(--primary) 18%, transparent); }
 .check { display: flex; gap: .65rem; align-items: flex-start; font-size: .92rem; font-weight: 500; }
 .check input { width: 1.1rem; height: 1.1rem; margin-top: .3rem; accent-color: var(--navy); }
 .fineprint { font-size: .84rem; color: var(--muted); }
-.status { margin-top: .5rem; font-size: .92rem; color: #24613a; }
+.status { margin-top: .5rem; font-size: .92rem; color: var(--navy); }
 
 @media (max-width: 640px) {
   .form { grid-template-columns: 1fr; }

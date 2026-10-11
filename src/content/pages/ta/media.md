@@ -6,7 +6,7 @@ eyebrow: "ஊடகம்"
 
 ## ஊடக விசாரணைகள்
 
-செய்தி மற்றும் ஊடக விசாரணைகளுக்கு, "Media" எனத் தலைப்பிட்டு [indonesiatamilsangaminfo@gmail.com](mailto:indonesiatamilsangaminfo@gmail.com) என்ற முகவரிக்கு மின்னஞ்சல் அனுப்புங்கள்.
+செய்தி மற்றும் ஊடக விசாரணைகளுக்கு, "Media" எனத் தலைப்பிட்டு [contact@indonesiatamilsangam.com](mailto:contact@indonesiatamilsangam.com) என்ற முகவரிக்கு மின்னஞ்சல் அனுப்புங்கள்.
 
 ## ஊடகத் தொகுப்பு
 

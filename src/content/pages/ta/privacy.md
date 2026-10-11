@@ -14,4 +14,4 @@ eyebrow: "தனியுரிமை"
 
 ## கேள்விகள்
 
-தனியுரிமை தொடர்பான கேள்விகள் அல்லது கோரிக்கைகளுக்கு [indonesiatamilsangaminfo@gmail.com](mailto:indonesiatamilsangaminfo@gmail.com) என்ற முகவரிக்கு மின்னஞ்சல் அனுப்புங்கள்.
+தனியுரிமை தொடர்பான கேள்விகள் அல்லது கோரிக்கைகளுக்கு [contact@indonesiatamilsangam.com](mailto:contact@indonesiatamilsangam.com) என்ற முகவரிக்கு மின்னஞ்சல் அனுப்புங்கள்.

@@ -1,0 +1,37 @@
+---
+import type { Lang } from '../site';
+import { getCommittee, TERM } from '../data/committee';
+const { lang } = Astro.props as { lang: Lang };
+const members = getCommittee(lang);
+const heading = { en: 'Management Committee', id: 'Pengurus', ta: 'நிர்வாகக் குழு' }[lang];
+const term = { en: 'Term', id: 'Periode', ta: 'பதவிக்காலம்' }[lang];
+---
+<section class="section ivory" aria-labelledby="committee-h">
+  <div class="shell">
+    <div class="section-head" data-reveal>
+      <div><p class="eyebrow">{term} {TERM}</p><h2 id="committee-h">{heading}</h2></div>
+    </div>
+    <ul class="grid">
+      {members.map((m, i) => (
+        <li class:list={['card', 'person', { lead: m.lead }]} data-reveal style={`--d:${(i % 3) * 0.08}s`}>
+          <span class="avatar" aria-hidden="true">{m.initials}</span>
+          <div><p class="role">{m.role}</p><h3>{m.display}</h3></div>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+<style>
+  .grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; }
+  .person { display: flex; align-items: center; gap: 1.1rem; padding: 1.4rem 1.5rem; }
+  .person.lead { background: var(--ink); border-color: var(--ink); color: var(--on-dark); }
+  .person.lead h3 { color: #fff; }
+  .person.lead .role { color: var(--gold-2); }
+  .person.lead .avatar { background: color-mix(in oklch, var(--primary) 70%, var(--ink)); color: #fff; }
+  .avatar { flex-shrink: 0; width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; background: var(--chart-1); color: var(--navy); font-family: var(--f-display); font-size: 1.1rem; letter-spacing: .04em; }
+  .role { margin: 0 0 .2rem; font-size: .72rem; font-weight: 650; letter-spacing: .16em; text-transform: uppercase; color: var(--primary); line-height: 1.4; }
+  :lang(ta) .role { letter-spacing: .02em; font-size: .85rem; }
+  h3 { margin: 0; font-size: 1.15rem; line-height: 1.3; }
+  @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 560px) { .grid { grid-template-columns: 1fr; } }
+</style>

@@ -19,10 +19,6 @@ A connected Tamil community in Indonesia that celebrates its language and herita
 - Share reliable information about Sangam programmes and community activities.
 - Collaborate with cultural, educational and community organisations.
 
-## Leadership
-
-Our office bearers, committee members and advisory committee will be introduced here shortly.
-
 ## Registration
 
 Indonesia Tamil Sangam is registered in Indonesia as *Persekutuan dan Perkumpulan Paguyuban Indonesia Tamil Sangam*, with its office at Citra Tower Kemayoran, Central Jakarta.

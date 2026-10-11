@@ -5,6 +5,15 @@ Repository: `caloganathan/its` · Working branch: `claude/happy-lamport-cudtsq`
 
 ---
 
+## Status (11 Oct 2026)
+| Item | Status |
+|---|---|
+| Code, `vercel.json`, sitemap, robots, preview switch (`PUBLIC_PREVIEW`) | ✅ Done and merged to `main` |
+| Indigo Mono theme, globe hero, contact email `contact@indonesiatamilsangam.com`, Management Committee 2026–28 | ✅ Done |
+| A2–A4 Vercel project, deploy, domain/DNS | ⏳ **Manual – needs Vercel account + registrar access** (not possible from the code repository) |
+| A5 `PUBLIC_PREVIEW=false` launch switch | ⏳ Manual, after section C sign-off |
+| Mailbox `contact@…` created | ⏳ Manual (B9) |
+
 ## A. Go live in one day (preview URL today, domain when approved)
 
 | # | Task | Who | Time |
@@ -30,7 +39,7 @@ Local run: `npm install && npm run dev` → http://localhost:4321/en/ (drafts su
 | B6 | Vercel **Deploy Hook** + GitHub Action cron (daily 00:05 WIB) so past events move automatically. | P1 | 1 h | Event auto-moves to "Past" the day after it ends. |
 | B7 | Gallery: content collection by event/year with lightbox; photo consent field required. | P1 | 1 day | Lazy-loaded WebP; alt text on every image. |
 | B8 | News: content collection (`date`, `author`, `summary`) with list + article pages + RSS. | P2 | 0.5 day | Latest 3 on homepage. |
-| B9 | Official domain email (`info@…`) and update `src/site.ts`. | P2 | 1 h | SPF/DKIM/DMARC configured. |
+| B9 | Create mailbox `contact@indonesiatamilsangam.com` (site already uses it) with SPF/DKIM/DMARC. | **P0** | 1 h | Test mail from the site form reaches the inbox. |
 | B10 | Optional hero film: 10–15 s muted loop (≤4 MB, WebM + MP4, poster image), respecting reduced-motion and a pause control. | P3 | 0.5 day | LCP < 2.5 s on 4G. |
 | B11 | Privacy-friendly analytics (Vercel Web Analytics or Plausible) — **only** after privacy notice update. | P3 | 1 h | No cookies banner needed if cookieless. |
 

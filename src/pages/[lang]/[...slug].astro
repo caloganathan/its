@@ -3,6 +3,7 @@ import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
 import EnquiryForm from '../../components/EnquiryForm.astro';
+import Committee from '../../components/Committee.astro';
 import type { Lang } from '../../site';
 
 export async function getStaticPaths() {
@@ -21,5 +22,6 @@ const m = page.data;
 <Base title={m.title} description={m.description} lang={lang} active={slug.split('/')[0]}>
   <PageHero lang={lang} title={m.title} description={m.description} eyebrow={m.eyebrow} />
   <section class="section"><div class="shell"><article class="prose" data-reveal><Content /></article></div></section>
+  {slug === 'about' && <Committee lang={lang} />}
   {(slug === 'contact' || slug === 'join') && <EnquiryForm lang={lang} />}
 </Base>

@@ -14,4 +14,4 @@ Mohon tidak mengirimkan informasi pribadi yang sensitif melalui formulir atau em
 
 ## Pertanyaan
 
-Untuk pertanyaan atau permintaan terkait privasi, kirim email ke [indonesiatamilsangaminfo@gmail.com](mailto:indonesiatamilsangaminfo@gmail.com).
+Untuk pertanyaan atau permintaan terkait privasi, kirim email ke [contact@indonesiatamilsangam.com](mailto:contact@indonesiatamilsangam.com).

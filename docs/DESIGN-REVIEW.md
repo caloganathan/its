@@ -21,9 +21,9 @@
 
 ## 2. Design direction — "cinematic, quiet, institutional"
 
-- **Palette** from the logo: ink `#06182b`, navy `#0b2a4a`, royal `#1f3f94`, temple gold `#c9a45b`, ivory `#f6f1e7`.
+- **Palette:** the committee-selected **Indigo Mono** theme, defined with its exact OKLCH values in `src/styles/global.css` (`--primary` oklch(0.5144 0.1605 267.44); chart-1…5; border oklch(0.92 0 0); input oklch(0.94 0 0)). Greys are true neutrals; indigo is the only hue. Legacy token names (`--gold`, `--royal`) now point at indigo tones.
 - **Type:** Fraunces (display serif) + Inter (text); Noto Serif/Sans Tamil take over automatically on `/ta/`. All fonts are **self-hosted** — no Google Fonts call, no third-party data transfer.
-- **Signature motif:** a kolam-inspired line mandala (pure SVG, 0 KB images) that draws itself in the hero and rotates very slowly; reused at low opacity in page headers and footer.
+- **Signature motif:** hero background is a wireframe **globe** that turns slowly (meridians animate, pure SVG) with a line-art sketch of the **Thiruvalluvar statue** at its centre (`src/components/GlobeMotif.astro`). The kolam mandala remains as a static accent in page headers and footer. The statue is a stylised sketch — replace it with an approved illustration if available.
 - **Cinematic rhythm:** dark full-screen hero → light pillars → ivory Purananuru 192 quote ("யாதும் ஊரே; யாவரும் கேளிர்") → full-bleed dark featured-event banner with countdown → event cards → explore tiles → gold call-to-action → dark footer.
 - **Motion:** scroll-reveal fades, hover lifts; all disabled under `prefers-reduced-motion`. No autoplay media.
 - **Performance:** static HTML, ~3 tiny inline scripts, responsive WebP via `astro:assets` for event photos.
@@ -37,6 +37,6 @@ Screenshots: `docs/screenshots/`.
 | **Official Tamil name.** The logo reads **இந்தோனேசியத் தமிழ்ச்சங்கம்**; the draft site used **இந்தோனேசியா தமிழ் சங்கம்**. | Must be consistent. One-line change in `src/site.ts` (`nameTa`). |
 | Vision & mission wording | Shown publicly on About once `PUBLIC_PREVIEW=false`. Approve before switching off preview. |
 | Quotation (Purananuru 192, Kaniyan Poongundranar) and its EN/ID renderings | Cultural/editorial choice; replace or remove if not preferred. |
-| Gmail address as official contact | Recommend `info@indonesiatamilsangam.com` once the domain is live (credibility, deliverability). |
+| Contact email | Set to `contact@indonesiatamilsangam.com`; the mailbox must exist before launch. |
 | Privacy notice | If any hosted form, mailing list or analytics is added, the notice must be reviewed against Indonesia's Personal Data Protection Law (UU No. 27 Tahun 2022) — local counsel review recommended. [Unverified for this specific use case] |
 | Tamil & Bahasa copy | Written/edited by AI; **must** be reviewed by native reviewers before launch. |

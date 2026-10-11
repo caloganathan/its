@@ -19,10 +19,6 @@ Komunitas Tamil di Indonesia yang terhubung, merayakan bahasa dan warisannya, se
 - Membagikan informasi tepercaya tentang program dan kegiatan Sangam.
 - Bekerja sama dengan organisasi budaya, pendidikan, dan komunitas.
 
-## Kepengurusan
-
-Pengurus, anggota komite, dan dewan penasihat kami akan segera diperkenalkan di halaman ini.
-
 ## Legalitas
 
 Indonesia Tamil Sangam terdaftar di Indonesia sebagai *Persekutuan dan Perkumpulan Paguyuban Indonesia Tamil Sangam*, berkantor di Citra Tower Kemayoran, Jakarta Pusat.

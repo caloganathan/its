@@ -6,7 +6,7 @@ eyebrow: "Media & pers"
 
 ## Pertanyaan media
 
-Untuk pertanyaan pers dan media, kirim email ke [indonesiatamilsangaminfo@gmail.com](mailto:indonesiatamilsangaminfo@gmail.com) dengan subjek "Media".
+Untuk pertanyaan pers dan media, kirim email ke [contact@indonesiatamilsangam.com](mailto:contact@indonesiatamilsangam.com) dengan subjek "Media".
 
 ## Paket media
 

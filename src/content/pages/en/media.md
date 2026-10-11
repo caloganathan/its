@@ -6,7 +6,7 @@ eyebrow: "Media & press"
 
 ## Media enquiries
 
-For press and media enquiries, please email [indonesiatamilsangaminfo@gmail.com](mailto:indonesiatamilsangaminfo@gmail.com) with "Media" in the subject line.
+For press and media enquiries, please email [contact@indonesiatamilsangam.com](mailto:contact@indonesiatamilsangam.com) with "Media" in the subject line.
 
 ## Press kit
 

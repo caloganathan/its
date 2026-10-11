@@ -6,7 +6,7 @@ eyebrow: "தொடர்பு"
 
 ## சங்கத்தைத் தொடர்புகொள்ள
 
-**மின்னஞ்சல்** — [indonesiatamilsangaminfo@gmail.com](mailto:indonesiatamilsangaminfo@gmail.com)
+**மின்னஞ்சல்** — [contact@indonesiatamilsangam.com](mailto:contact@indonesiatamilsangam.com)
 
 **தொலைபேசி** — [0851-9554-8554](tel:+6285195548554)
 

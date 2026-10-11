@@ -4,7 +4,7 @@ Status key: **Not supplied / needs approval** unless marked otherwise.
 
 ## Source-derived information
 - [x] Uploaded NIB records registered name: *Persekutuan dan Perkumpulan Paguyuban Indonesia Tamil Sangam*.
-- [x] Uploaded NIB lists email: `indonesiatamilsangaminfo@gmail.com`.
+- [x] Public contact email set to `contact@indonesiatamilsangam.com` (11 Oct 2026, per Treasurer). The NIB lists a Gmail address; confirm the mailbox exists and is monitored before launch.
 - [x] Uploaded NIB lists telephone: `085195548554`.
 - [x] Uploaded NIB lists office address: Citra Tower Kemayoran, Level 3, Unit H1, Kavling A6, Jl. Benyamin Sueb, Kebon Kosong, Kemayoran, Central Jakarta, DKI Jakarta 10630, Indonesia.
 - [ ] Reconfirm all public contact details and office arrangements.
@@ -16,7 +16,8 @@ Status key: **Not supplied / needs approval** unless marked otherwise.
 - [ ] Founding date, history and milestones supported by approved records.
 - [ ] Constitution / bylaws and official objectives.
 - [ ] Committee-approved vision and mission.
-- [ ] Current office bearers: names, positions, term dates, approved photos and biographies.
+- [x] Management Committee 2026–28 (9 members) supplied by the Treasurer and published on About (`src/data/committee.ts`).
+- [ ] Office bearer photographs and short biographies (optional).
 - [ ] Committee members: names and positions.
 - [ ] Advisory committee: names, positions and approved bios.
 - [ ] Authorised media spokesperson and approval process.
@@ -42,5 +43,5 @@ Status key: **Not supplied / needs approval** unless marked otherwise.
 - [ ] Approve homepage pillars copy and the Purananuru 192 quotation with EN/ID renderings (`src/i18n/ui.ts`).
 - [ ] Supply official logo as SVG or ≥1000 px PNG.
 - [ ] Supply latest event brief: title, date/time (WIB), venue + map link, features/highlights, programme, registration link, cover photo (with consent).
-- [ ] Decide on a domain email address to replace the Gmail address.
+- [ ] Create the `contact@indonesiatamilsangam.com` mailbox (and SPF/DKIM/DMARC) before launch.
 - [ ] Approve switching `PUBLIC_PREVIEW` to `false` (launch).
