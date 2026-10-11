@@ -1,0 +1,25 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import EnquiryForm from '../../components/EnquiryForm.astro';
+import type { Lang } from '../../site';
+
+export async function getStaticPaths() {
+  const pages = await getCollection('pages');
+  return pages.map((page) => {
+    const [lang, ...rest] = page.id.split('/');
+    return { params: { lang, slug: rest.join('/') }, props: { page } };
+  });
+}
+const { page } = Astro.props;
+const lang = Astro.params.lang as Lang;
+const slug = Astro.params.slug ?? '';
+const { Content } = await render(page);
+const m = page.data;
+---
+<Base title={m.title} description={m.description} lang={lang} active={slug.split('/')[0]}>
+  <PageHero lang={lang} title={m.title} description={m.description} eyebrow={m.eyebrow} />
+  <section class="section"><div class="shell"><article class="prose" data-reveal><Content /></article></div></section>
+  {(slug === 'contact' || slug === 'join') && <EnquiryForm lang={lang} />}
+</Base>

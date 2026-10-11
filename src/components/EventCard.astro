@@ -1,0 +1,44 @@
+---
+import { Image } from 'astro:assets';
+import type { SangamEvent } from '../lib/events';
+import { dateParts } from '../lib/events';
+import { useT } from '../i18n/ui';
+import type { Lang } from '../site';
+import Kolam from './Kolam.astro';
+const { event, lang } = Astro.props as { event: SangamEvent; lang: Lang };
+const t = useT(lang);
+const d = event.data;
+const p = d.start ? dateParts(d.start, lang) : null;
+const status = d.status && d.status !== 'scheduled' ? t(`events.status.${d.status}`) : '';
+---
+<article class="card ev" class:list={{ past: !event.upcoming }}>
+  <div class="media">
+    {d.cover ? <Image src={d.cover} alt={d.coverAlt ?? ''} widths={[480, 720, 960]} sizes="(max-width: 700px) 100vw, 400px" loading="lazy" /> : <div class="ph"><Kolam /></div>}
+    {p && <div class="date" aria-hidden="true"><b>{p.day}</b><span>{p.month}</span></div>}
+    {status && <span class="badge">{status}</span>}
+  </div>
+  <div class="body">
+    {p && <p class="meta"><time datetime={d.start!.toISOString()}>{p.weekday}, {p.day} {p.month} {p.year} · {p.time} WIB</time></p>}
+    <h3><a href={`/${lang}/events/${event.slug}/`} class="stretched">{d.title}</a></h3>
+    {d.venue && <p class="venue">{d.venue}</p>}
+  </div>
+</article>
+<style>
+  .ev { display: flex; flex-direction: column; height: 100%; }
+  .media { position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: var(--navy); }
+  .media img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease); }
+  .ev:hover .media img { transform: scale(1.05); }
+  .ph { position: absolute; inset: 0; display: grid; place-items: center; background: radial-gradient(90% 90% at 70% 20%, #1b4473, var(--ink)); }
+  .ph :global(svg) { width: 70%; opacity: .55; }
+  .date { position: absolute; left: 1rem; top: 1rem; display: grid; place-items: center; width: 64px; padding: .55rem 0 .45rem; background: rgba(255,253,248,.95); border-radius: 10px; color: var(--navy); line-height: 1; text-align: center; }
+  .date b { font-family: var(--f-display); font-size: 1.6rem; font-weight: 500; }
+  .date span { font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; margin-top: .3rem; }
+  .badge { position: absolute; right: 1rem; top: 1rem; background: var(--gold); color: #13202f; font-size: .72rem; font-weight: 700; padding: .3rem .65rem; border-radius: 999px; }
+  .body { padding: 1.4rem 1.5rem 1.6rem; }
+  .meta { font-size: .8rem; color: var(--muted); margin-bottom: .5rem; letter-spacing: .02em; }
+  h3 { margin-bottom: .4rem; }
+  h3 a { color: var(--navy); text-decoration: none; }
+  .stretched::after { content: ''; position: absolute; inset: 0; }
+  .venue { color: var(--muted); font-size: .92rem; margin: 0; }
+  .past .media { filter: grayscale(.35); }
+</style>

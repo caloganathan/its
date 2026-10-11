@@ -1,0 +1,29 @@
+---
+// Decorative kolam-inspired line motif (pure SVG, no image download). aria-hidden: purely ornamental.
+const { class: cls = '', animate = false } = Astro.props;
+const dots: [number, number][] = [];
+for (let i = -3; i <= 3; i++) for (let j = -3; j <= 3; j++) if (Math.abs(i) + Math.abs(j) <= 4) dots.push([200 + i * 34, 200 + j * 34]);
+const petals = Array.from({ length: 12 }, (_, k) => k * 30);
+---
+<svg class:list={['kolam', cls, { draw: animate }]} viewBox="0 0 400 400" fill="none" aria-hidden="true" focusable="false">
+  <g stroke="currentColor" stroke-width="1" stroke-linecap="round">
+    <circle cx="200" cy="200" r="190" pathLength="1" />
+    <circle cx="200" cy="200" r="172" pathLength="1" stroke-dasharray="0.004 0.012" />
+    {[0, 45].map((r) => <rect x="80" y="80" width="240" height="240" rx="56" transform={`rotate(${r} 200 200)`} pathLength="1" />)}
+    {[22.5, 67.5].map((r) => <rect x="110" y="110" width="180" height="180" rx="40" transform={`rotate(${r} 200 200)`} pathLength="1" />)}
+    {petals.map((a) => <path d="M200 200 C 222 150, 222 110, 200 64 C 178 110, 178 150, 200 200 Z" transform={`rotate(${a} 200 200)`} pathLength="1" />)}
+    <circle cx="200" cy="200" r="30" pathLength="1" />
+    <circle cx="200" cy="200" r="12" pathLength="1" />
+  </g>
+  <g fill="currentColor">{dots.map(([x, y]) => <circle cx={x} cy={y} r="2.2" />)}</g>
+</svg>
+<style>
+  .kolam { color: var(--gold); }
+  .draw g[stroke] > * { stroke-dasharray: 1; stroke-dashoffset: 1; animation: kolam-draw 4.2s cubic-bezier(.4,0,.2,1) forwards; }
+  .draw g[stroke] > *:nth-child(2) { stroke-dasharray: 0.004 0.012; stroke-dashoffset: 0; animation: kolam-fade 2s 1.5s both; }
+  .draw g[stroke] > *:nth-child(n+3) { animation-delay: .4s; }
+  .draw g[stroke] > *:nth-child(n+7) { animation-delay: 1s; animation-duration: 3.4s; }
+  .draw g[fill] { animation: kolam-fade 2.4s 2.2s both; }
+  @keyframes kolam-draw { to { stroke-dashoffset: 0; } }
+  @keyframes kolam-fade { from { opacity: 0; } }
+</style>

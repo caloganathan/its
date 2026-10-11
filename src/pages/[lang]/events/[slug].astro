@@ -1,0 +1,85 @@
+---
+import { Image } from 'astro:assets';
+import { render } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import PageHero from '../../../components/PageHero.astro';
+import { SITE, LANGS, type Lang } from '../../../site';
+import { useT } from '../../../i18n/ui';
+import { getEvents, longDate, googleCalendarUrl, type SangamEvent } from '../../../lib/events';
+
+export async function getStaticPaths() {
+  const paths = [];
+  for (const lang of LANGS) for (const event of await getEvents(lang)) paths.push({ params: { lang, slug: event.slug }, props: { event } });
+  return paths;
+}
+const { event } = Astro.props as { event: SangamEvent };
+const lang = Astro.params.lang as Lang;
+const t = useT(lang);
+const d = event.data;
+const { Content } = await render(event.local);
+const url = new URL(Astro.url.pathname, SITE.url).href;
+const cal = googleCalendarUrl(d, url);
+const status = d.status && d.status !== 'scheduled' ? t(`events.status.${d.status}`) : '';
+const statusMap = { scheduled: 'EventScheduled', postponed: 'EventPostponed', cancelled: 'EventCancelled', full: 'EventScheduled' } as const;
+const jsonLd = d.start ? {
+  '@context': 'https://schema.org', '@type': 'Event', name: d.title, description: d.summary,
+  startDate: d.start.toISOString(), ...(d.end && { endDate: d.end.toISOString() }),
+  eventStatus: `https://schema.org/${statusMap[d.status ?? 'scheduled']}`, eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+  ...(d.venue && { location: { '@type': 'Place', name: d.venue, address: d.address ?? d.venue } }),
+  ...(d.cover && { image: [new URL(d.cover.src, SITE.url).href] }),
+  organizer: { '@type': 'Organization', name: d.organiser ?? SITE.name, url: SITE.url },
+  ...(d.registrationUrl && { offers: { '@type': 'Offer', url: d.registrationUrl, availability: d.status === 'full' ? 'https://schema.org/SoldOut' : 'https://schema.org/InStock' } }),
+  url,
+} : undefined;
+---
+<Base title={d.title} description={d.summary} lang={lang} active="events" image={d.cover?.src} jsonLd={jsonLd}>
+  <PageHero lang={lang} title={d.title} description={d.summary} eyebrow={status || t('events.eyebrow')} crumbs={[{ href: `/${lang}/events/`, label: t('nav.events') }]} />
+  {d.cover && <div class="cover shell" data-reveal><Image src={d.cover} alt={d.coverAlt ?? ''} widths={[720, 1200, 1800]} sizes="(max-width: 1200px) 100vw, 1200px" /></div>}
+  <section class="section">
+    <div class="shell layout">
+      <article class="prose" data-reveal>
+        {!event.translated && <p class="note">{t('events.translation')}</p>}
+        <Content />
+        {d.highlights && d.highlights.length > 0 && <><h2>{t('events.highlights')}</h2><ul>{d.highlights.map((h) => <li>{h}</li>)}</ul></>}
+        {d.programme && d.programme.length > 0 && <><h2>{t('events.programme')}</h2>
+          <ol class="programme">{d.programme.map((p) => <li><time>{p.time}</time><span>{p.item}</span></li>)}</ol></>}
+      </article>
+      <aside class="facts" data-reveal>
+        {d.start && <div><h2>{t('events.when')}</h2><p>{longDate(d, lang)} {t('events.wib')}</p></div>}
+        {d.venue && <div><h2>{t('events.where')}</h2><p>{d.venue}{d.address && <><br /><span class="muted">{d.address}</span></>}</p>
+          {d.mapUrl && <a class="link-arrow" href={d.mapUrl} target="_blank" rel="noopener">{t('events.map')} ↗</a>}</div>}
+        <div><h2>{t('events.organiser')}</h2><p>{d.organiser ?? SITE.name}</p></div>
+        <div class="cta">
+          {d.registrationUrl && d.status !== 'cancelled' && <a class="btn" href={d.registrationUrl} target="_blank" rel="noopener">{d.registrationLabel ?? t('events.register')} <span class="arrow" aria-hidden="true">→</span></a>}
+          {cal && event.upcoming && <a class="link-arrow" href={cal} target="_blank" rel="noopener">{t('events.addcal')} ↗</a>}
+        </div>
+      </aside>
+    </div>
+  </section>
+  {d.gallery && d.gallery.length > 0 && (
+    <section class="section ivory"><div class="shell">
+      <div class="section-head"><div><p class="eyebrow">{t('events.gallery')}</p></div></div>
+      <div class="gallery">{d.gallery.map((g) => <Image src={g.src} alt={g.alt} widths={[480, 960]} sizes="(max-width: 700px) 100vw, 33vw" loading="lazy" />)}</div>
+    </div></section>
+  )}
+  <div class="shell back"><a class="link-arrow" href={`/${lang}/events/`}>← {t('events.back')}</a></div>
+</Base>
+<style>
+  .cover { margin-top: -2.5rem; position: relative; z-index: 2; }
+  .cover img { width: 100%; aspect-ratio: 21 / 9; object-fit: cover; border-radius: var(--radius); box-shadow: 0 40px 80px -40px rgba(6,24,43,.5); }
+  .layout { display: grid; grid-template-columns: 1fr 360px; gap: clamp(2rem, 6vw, 5rem); align-items: start; }
+  .facts { position: sticky; top: 6rem; display: grid; gap: 1.5rem; padding: 2rem; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; }
+  .facts h2 { font-family: var(--f-body); font-size: .72rem; font-weight: 650; letter-spacing: .2em; text-transform: uppercase; color: #9a7633; margin-bottom: .4rem; }
+  .facts p { margin: 0 0 .5rem; }
+  .muted { color: var(--muted); font-size: .92rem; }
+  .cta { display: grid; gap: 1rem; justify-items: start; padding-top: 1.25rem; border-top: 1px solid var(--line); }
+  .note { padding: .8rem 1rem; background: var(--ivory); border-radius: 10px; font-size: .92rem; color: var(--muted); }
+  .programme { list-style: none; padding: 0; border-top: 1px solid var(--line); }
+  .programme li { display: grid; grid-template-columns: 7rem 1fr; gap: 1rem; padding: .9rem 0; border-bottom: 1px solid var(--line); margin: 0; }
+  .programme li::before { display: none; }
+  .programme time { font-family: var(--f-display); color: var(--navy); font-variant-numeric: tabular-nums; }
+  .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .gallery img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 10px; }
+  .back { padding-block: 0 4rem; }
+  @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } .facts { position: static; } .gallery { grid-template-columns: 1fr 1fr; } .cover { margin-top: 1.5rem; } }
+</style>

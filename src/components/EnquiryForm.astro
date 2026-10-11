@@ -1,0 +1,49 @@
+---
+import { SITE, type Lang } from '../site';
+import { useT } from '../i18n/ui';
+const { lang } = Astro.props as { lang: Lang };
+const t = useT(lang);
+const opts = ['membership', 'volunteer', 'events', 'culture', 'sponsor', 'other'] as const;
+---
+<section class="section ivory" id="form">
+  <div class="shell wrap">
+    <div data-reveal>
+      <p class="eyebrow">{t('nav.join')}</p>
+      <h2>{t('form.title')}</h2>
+      <p class="lead">{t('form.intro')}</p>
+      <ul class="direct">
+        <li><a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
+        <li><a href={`tel:${SITE.phoneE164}`}>{SITE.phoneDisplay}</a></li>
+      </ul>
+    </div>
+    <form class="form" id="interest-form" data-email={SITE.email} data-reveal novalidate>
+      <div class="field"><label for="f-name">{t('form.name')} *</label><input id="f-name" name="name" autocomplete="name" required maxlength="120" /></div>
+      <div class="field"><label for="f-email">{t('form.email')} *</label><input id="f-email" name="email" type="email" autocomplete="email" required maxlength="160" /></div>
+      <div class="field"><label for="f-city">{t('form.city')}</label><input id="f-city" name="city" autocomplete="address-level2" maxlength="100" /></div>
+      <div class="field"><label for="f-interest">{t('form.interest')} *</label>
+        <select id="f-interest" name="interest" required><option value="">{t('form.select')}</option>{opts.map((o) => <option>{t(`form.opt.${o}`)}</option>)}</select></div>
+      <div class="field full"><label for="f-msg">{t('form.message')}</label><textarea id="f-msg" name="message" maxlength="1500"></textarea></div>
+      <div class="field full"><label class="check"><input type="checkbox" name="consent" required /> <span>{t('form.consent')} *</span></label></div>
+      <div class="field full">
+        <button class="btn dark" type="submit">{t('form.submit')} <span class="arrow" aria-hidden="true">→</span></button>
+        <p class="status" id="form-status" role="status" aria-live="polite"></p>
+      </div>
+    </form>
+  </div>
+</section>
+<script is:inline define:vars={{ statusText: t('form.status') }}>
+  document.getElementById('interest-form')?.addEventListener('submit', function (e) {
+    e.preventDefault(); if (!this.reportValidity()) return;
+    const f = new FormData(this);
+    const body = ['Website enquiry — Indonesia Tamil Sangam', '', `Name: ${f.get('name')}`, `Email: ${f.get('email')}`, `City: ${f.get('city') || '-'}`,
+      `Interest: ${f.get('interest')}`, '', `${f.get('message') || ''}`, '', 'Consent to be contacted: Yes', `Page language: ${document.documentElement.lang}`].join('\n');
+    document.getElementById('form-status').textContent = statusText;
+    location.href = `mailto:${this.dataset.email}?subject=${encodeURIComponent('Website enquiry: ' + f.get('interest'))}&body=${encodeURIComponent(body)}`;
+  });
+</script>
+<style>
+  .wrap { display: grid; grid-template-columns: .85fr 1.15fr; gap: clamp(2rem, 6vw, 5rem); align-items: start; }
+  .direct { list-style: none; padding: 0; margin: 2rem 0 0; display: grid; gap: .5rem; font-weight: 600; }
+  .direct a { color: var(--navy); }
+  @media (max-width: 900px) { .wrap { grid-template-columns: 1fr; } }
+</style>

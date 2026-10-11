@@ -1,0 +1,82 @@
+---
+import { SITE, LANGS, LANG_LABEL, type Lang } from '../site';
+import { nav, useT } from '../i18n/ui';
+import Seal from './Seal.astro';
+const { lang, active, altPath } = Astro.props as { lang: Lang; active?: string; altPath: string };
+const t = useT(lang);
+---
+<header class="site-header" data-header>
+  <div class="shell bar">
+    <a class="brand" href={`/${lang}/`} aria-label={`${SITE.name} — ${t('nav.home')}`}>
+      <Seal size={52} class="hdr-seal" priority />
+      <span class="brand-text"><strong>Indonesia Tamil Sangam</strong><small lang="ta">{SITE.nameTa}</small></span>
+    </a>
+    <nav class="primary" id="primary-nav" aria-label="Main">
+      <ul>
+        {nav.map((n) => <li><a href={`/${lang}/${n.href}`} aria-current={active === n.id ? 'page' : undefined}>{t(`nav.${n.id}`)}</a></li>)}
+      </ul>
+      <div class="lang" role="group" aria-label={t('nav.language')}>
+        {LANGS.map((l) => <a href={`/${l}${altPath}`} lang={l} hreflang={l} aria-current={l === lang ? 'true' : undefined}>{LANG_LABEL[l]}</a>)}
+      </div>
+      <a class="btn nav-cta" href={`/${lang}/join/`}>{t('nav.join')}</a>
+    </nav>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" data-menu>
+      <span class="visually-hidden" data-open>{t('nav.menu')}</span><span class="visually-hidden" data-close hidden>{t('nav.close')}</span>
+      <span class="bars" aria-hidden="true"><i></i><i></i></span>
+    </button>
+  </div>
+</header>
+<script is:inline>
+  (() => {
+    const h = document.querySelector('[data-header]'); const b = document.querySelector('[data-menu]');
+    const onScroll = () => h.classList.toggle('solid', scrollY > 40); onScroll();
+    addEventListener('scroll', onScroll, { passive: true });
+    const set = (open) => { b.setAttribute('aria-expanded', String(open)); h.classList.toggle('open', open); document.body.style.overflow = open ? 'hidden' : '';
+      b.querySelector('[data-open]').hidden = open; b.querySelector('[data-close]').hidden = !open; };
+    b.addEventListener('click', () => set(b.getAttribute('aria-expanded') !== 'true'));
+    addEventListener('keydown', (e) => { if (e.key === 'Escape' && h.classList.contains('open')) { set(false); b.focus(); } });
+    h.querySelectorAll('.primary a').forEach((a) => a.addEventListener('click', () => set(false)));
+  })();
+</script>
+<style>
+  .site-header { position: fixed; inset: 0 0 auto; z-index: 50; color: #fff; transition: background .5s var(--ease), box-shadow .5s, padding .5s; padding-block: 1.1rem; }
+  .site-header.solid { background: rgba(6, 24, 43, .86); backdrop-filter: saturate(160%) blur(14px); -webkit-backdrop-filter: saturate(160%) blur(14px); box-shadow: 0 1px 0 rgba(255,255,255,.08); padding-block: .6rem; }
+  :global(.has-ribbon) .site-header { top: 30px; }
+  :global(.has-ribbon) .site-header.solid { top: 0; }
+  .bar { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; }
+  .brand { display: flex; align-items: center; gap: .8rem; color: #fff; text-decoration: none; flex-shrink: 0; }
+  .solid .brand :global(.hdr-seal) { --s: 44px !important; }
+  .brand-text strong { display: block; font-family: var(--f-display); font-weight: 500; font-size: 1.08rem; letter-spacing: .01em; line-height: 1.2; }
+  .brand-text small { display: block; font-family: 'Noto Serif Tamil Variable', serif; font-size: .74rem; color: var(--gold-2); line-height: 1.4; }
+  .primary { display: flex; align-items: center; gap: 1.6rem; }
+  .primary ul { display: flex; gap: .2rem; list-style: none; margin: 0; padding: 0; }
+  .primary ul a { position: relative; display: block; padding: .5rem .7rem; color: rgba(255,255,255,.86); text-decoration: none; font-size: .9rem; font-weight: 500; }
+  .primary ul a::after { content: ''; position: absolute; left: .7rem; right: .7rem; bottom: .25rem; height: 1px; background: var(--gold); transform: scaleX(0); transform-origin: left; transition: transform .45s var(--ease); }
+  .primary ul a:hover, .primary ul a[aria-current='page'] { color: #fff; }
+  .primary ul a:hover::after, .primary ul a[aria-current='page']::after { transform: scaleX(1); }
+  .lang { display: flex; gap: .15rem; padding: .2rem; border: 1px solid rgba(255,255,255,.2); border-radius: 999px; }
+  .lang a { padding: .2rem .6rem; border-radius: 999px; color: rgba(255,255,255,.75); text-decoration: none; font-size: .76rem; font-weight: 600; }
+  .lang a:hover { color: #fff; }
+  .lang a[aria-current='true'] { background: rgba(255,255,255,.14); color: #fff; }
+  .nav-cta { padding: .6rem 1.15rem; font-size: .86rem; }
+  .menu-toggle { display: none; position: relative; z-index: 2; width: 46px; height: 46px; border-radius: 50%; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.25); cursor: pointer; }
+  .bars { position: absolute; inset: 0; display: grid; place-content: center; gap: 6px; }
+  .bars i { display: block; width: 18px; height: 1.5px; background: #fff; transition: transform .4s var(--ease); }
+  .open .bars i:first-child { transform: translateY(3.75px) rotate(45deg); }
+  .open .bars i:last-child { transform: translateY(-3.75px) rotate(-45deg); }
+
+  @media (max-width: 1080px) {
+    .menu-toggle { display: block; }
+    .primary { position: fixed; inset: 0; z-index: 1; flex-direction: column; align-items: flex-start; justify-content: center; gap: 2rem; padding: 6rem clamp(1.5rem, 8vw, 4rem) 3rem; background: radial-gradient(120% 80% at 80% 0%, #12365a 0%, var(--ink) 60%); opacity: 0; visibility: hidden; transition: opacity .45s var(--ease), visibility 0s .45s; overflow-y: auto; }
+    .open .primary { opacity: 1; visibility: visible; transition: opacity .45s var(--ease); }
+    .primary ul { flex-direction: column; gap: 0; }
+    .primary ul a { font-family: var(--f-display); font-size: clamp(1.8rem, 7vw, 2.6rem); padding: .3rem 0; color: #fff; }
+    .primary ul a::after { left: 0; right: auto; width: 2.5rem; bottom: .2rem; }
+    .open .primary li { animation: rise .6s var(--ease) both; }
+    .open .primary li:nth-child(2) { animation-delay: .04s } .open .primary li:nth-child(3) { animation-delay: .08s } .open .primary li:nth-child(4) { animation-delay: .12s }
+    .open .primary li:nth-child(5) { animation-delay: .16s } .open .primary li:nth-child(6) { animation-delay: .2s } .open .primary li:nth-child(7) { animation-delay: .24s }
+    .open .brand { position: relative; z-index: 2; }
+  }
+  @media (max-width: 420px) { .brand-text strong { font-size: .95rem; } .brand :global(.hdr-seal) { --s: 44px !important; } }
+  @keyframes rise { from { opacity: 0; transform: translateY(16px); } }
+</style>
