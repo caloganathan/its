@@ -32,7 +32,7 @@ Local run: `npm install && npm run dev` → http://localhost:4321/en/ (drafts su
 | ID | Task | Priority | Effort | Acceptance criteria |
 |---|---|---|---|---|
 | B1 | **Load the latest event(s)** from the committee brief using `docs/EVENTS-GUIDE.md`; delete `src/content/events/example-pongal/`. | P0 | 1–2 h per event | Event shows on home banner, `/en/events/`, detail page in 3 languages; Google Rich Results Test passes on detail page. |
-| B2 | Replace the logo with an official high-resolution **SVG** (or ≥1000 px PNG); regenerate `og-default.png` and `apple-touch-icon.png`. | P0 | 1 h | Logo crisp at 2× on retina; social share preview correct (opengraph.xyz). |
+| B2 | Replace the logo with an official high-resolution **SVG** (or ≥1000 px PNG); regenerate `og-default.png`, `apple-touch-icon.png` and `favicon-192.png`. | P0 | 1 h | Logo crisp at 2× on retina; social share preview correct (opengraph.xyz). |
 | B3 | Native-speaker review of `src/i18n/ui.ts` and all `id/` and `ta/` pages. | P0 | 0.5 day | Reviewer sign-off recorded in checklist. |
 | B4 | Leadership section on About: committee, advisers with approved photos (square, ≥800 px) and short bios. Build as a `people` content collection. | P1 | 0.5 day | Only approved names/photos; consistent card grid. |
 | B5 | Real registration: replace `mailto:` form with Tally/Google Forms embed **or** Formspree/Vercel function + spam protection. Update privacy notice first. | P1 | 1 day | Submission received by committee inbox; privacy notice updated; consent captured. |
