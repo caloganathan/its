@@ -1,13 +1,12 @@
 ---
-// The supplied logo has a transparent interior, so it must always sit on a light ground.
-// This medallion keeps it legible on dark sections.
+// The logo carries its own white interior, so it is legible on light and dark grounds without a medallion.
 import { SITE } from '../site';
 const { size = 56, alt = '', priority = false, class: cls = '' } = Astro.props;
 ---
 <span class:list={['seal', cls]} style={`--s:${size}px`}>
-  <img src={SITE.logo} alt={alt} width="218" height="224" decoding="async" fetchpriority={priority ? 'high' : undefined} loading={priority ? 'eager' : 'lazy'} />
+  <img src={SITE.logo} alt={alt} width="1022" height="990" decoding="async" fetchpriority={priority ? 'high' : undefined} loading={priority ? 'eager' : 'lazy'} />
 </span>
 <style>
-  .seal { display: inline-grid; place-items: center; width: var(--s); height: var(--s); flex-shrink: 0; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #ffffff, oklch(0.94 0.012 268) 70%); box-shadow: 0 0 0 1px var(--chart-2), 0 0 0 calc(var(--s) * .06) color-mix(in oklch, var(--chart-2) 30%, transparent), 0 calc(var(--s) * .2) calc(var(--s) * .5) -.1em rgba(0,0,0,.45); transition: width .5s var(--ease), height .5s var(--ease); }
-  .seal img { width: 74%; height: auto; transform: translateY(2%); }
+  .seal { display: inline-grid; place-items: center; width: var(--s); flex-shrink: 0; filter: drop-shadow(0 calc(var(--s) * .08) calc(var(--s) * .16) rgba(0,0,0,.35)); transition: width .5s var(--ease); }
+  .seal img { width: 100%; height: auto; display: block; }
 </style>
